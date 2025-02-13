@@ -84,16 +84,22 @@ const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white pt-20">
+      {/* Header */}
       <Header username={user} onLogout={handleLogout} />
-
-      {alert.show && (
-        <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ show: false, type: '', message: '' })} />
-      )}
-
+      {/* Alert */}
+      <div className='max-w-full'>
+        {alert.show && (
+          <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ show: false, type: '', message: '' })} />
+        )}
+      </div>
+      {/* Main */}
       <main className="flex-1 p-6">
+
         <div className="h-full overflow-y-auto">
+          {/* Lazy Loading */}
           <Suspense fallback={<div className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {Array.from({ length: 16 }).map((_, index) => (
+              // Skeleton Loader
               <PostCardSkeleton key={index} />
             ))}
           </div>}>
