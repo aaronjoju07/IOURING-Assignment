@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Post Card Component
 const PostCard = ({ post, onEdit, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
 

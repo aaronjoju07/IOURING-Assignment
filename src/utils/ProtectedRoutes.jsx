@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 const ProtectedRoutes = () => {
   const user = Cookies.get('user')
   console.log('user:', user);
-  
+
   return user ? <Outlet /> : <Navigate to="/login" />
 }
 

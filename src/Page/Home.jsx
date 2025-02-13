@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import PostList from '../components/PostList';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostForm from '../components/PostForm';
 import { fetchPosts, createPost, updatePost, deletePost } from '../api/api';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import PostCardSkeleton from '../components/PostCardSkeleton';
 
+const PostList = React.lazy(() => import('../components/PostList'));
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -59,7 +60,7 @@ const Home = () => {
 
   const handleLogout = () => {
     alert('Logged out');
-    Cookies.remove('user')
+    Cookies.remove('user');
     navigation('/login');
   };
 
@@ -73,10 +74,19 @@ const Home = () => {
       <Header username={user} onLogout={handleLogout} />
 
       <main className="flex-1 p-6">
-        <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} />
+
+        <div className="h-full overflow-y-auto">
+          <Suspense fallback={<div className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {Array.from({ length: 16 }).map((_, index) => (
+              <PostCardSkeleton key={index} />
+            ))}
+          </div>}>
+            <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} />
+          </Suspense>
+        </div>
       </main>
 
-      {/* Floating Action Button (FAB) */}
+
       <button
         onClick={() => setShowPostForm(true)}
         className="fixed bottom-8 right-8 bg-indigo-500 text-white rounded-4xl p-3 shadow-lg hover:bg-indigo-600 z-10"

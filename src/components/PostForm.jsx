@@ -14,7 +14,7 @@ const PostForm = ({ post, onSubmit, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-100 bg-opacity-90 flex justify-center items-center z-20">
+        <div className="fixed inset-0 bg-gray-100  flex justify-center items-center z-20" style={{background: 'rgba(0, 0, 0, 0.5)'}}>
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-md">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">{post ? 'Edit Post' : 'Add New Post'}</h2>
                 <div className="mt-4">

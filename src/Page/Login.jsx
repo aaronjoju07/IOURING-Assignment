@@ -16,14 +16,14 @@ const Login = () => {
     e.preventDefault();
     console.log('Email:', email);
     console.log('Password:', password);
-    Cookies.set('user', email, { expires: 1/96 })
+    Cookies.set('user', email, { expires: 1 / 96 })
     navigation('/');
   };
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
-
+        {/* Left Side */}
         <div className="w-1/2 p-10 hidden lg:block bg-gray-50">
           <h2 className="text-xl font-bold text-indigo-600 mb-6">Validation Features</h2>
           <div className="space-y-6">
@@ -53,6 +53,7 @@ const Login = () => {
             </div>
           </div>
         </div>
+        {/* Right Side */}
         <div className="w-full lg:w-1/2 p-10">
           <h2 className="text-2xl font-bold text-gray-900 text-center">Sign in</h2>
           <div className="mt-6">
