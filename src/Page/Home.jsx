@@ -6,11 +6,13 @@ import PostForm from '../components/PostForm';
 import { fetchPosts, createPost, updatePost, deletePost } from '../api/api';
 import Cookies from 'js-cookie';
 import PostCardSkeleton from '../components/PostCardSkeleton';
+import Alert from '../components/Alert';
 
 const PostList = React.lazy(() => import('../components/PostList'));
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [alert, setAlert] = useState({ show: false, type: '', message: '' });
   const user = Cookies.get('user') ? Cookies.get('user').split('@')[0] : 'Guest';
   const [showPostForm, setShowPostForm] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -37,8 +39,10 @@ const Home = () => {
     const result = await deletePost(id);
     if (result.success) {
       setPosts(posts.filter(post => post.id !== id));
+      showAlert('success', 'Post deleted successfully');
     } else {
       console.error(result.message);
+      showAlert('danger', 'Error deleting post');
     }
   };
 
@@ -53,8 +57,10 @@ const Home = () => {
     if (result.success) {
       setPosts(selectedPost ? posts.map(post => (post.id === selectedPost.id ? result.data : post)) : [...posts, result.data]);
       closePostForm();
+      showAlert('success', selectedPost ? 'Post updated successfully' : 'Post added successfully');
     } else {
       console.error(result.message);
+      showAlert('danger', 'Error saving post');
     }
   };
 
@@ -69,12 +75,22 @@ const Home = () => {
     setSelectedPost(null);
   };
 
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+    setTimeout(() => {
+      setAlert({ show: false, type: '', message: '' });
+    }, 5000); // Hide alert after 5 seconds
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white pt-20">
       <Header username={user} onLogout={handleLogout} />
 
-      <main className="flex-1 p-6">
+      {alert.show && (
+        <Alert type={alert.type} message={alert.message} onClose={() => setAlert({ show: false, type: '', message: '' })} />
+      )}
 
+      <main className="flex-1 p-6">
         <div className="h-full overflow-y-auto">
           <Suspense fallback={<div className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {Array.from({ length: 16 }).map((_, index) => (
@@ -85,7 +101,6 @@ const Home = () => {
           </Suspense>
         </div>
       </main>
-
 
       <button
         onClick={() => setShowPostForm(true)}
