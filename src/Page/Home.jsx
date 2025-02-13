@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostForm from '../components/PostForm';
-import { fetchPosts } from '../api/api';
-
+import { fetchPosts, createPost, updatePost, deletePost } from '../api/api';
 
 // Home Page with Floating Action Button (FAB) and Modal for Add/Edit
 const Home = () => {
@@ -16,12 +15,15 @@ const Home = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-
     const getPosts = async () => {
-      const data = await fetchPosts();
-      setPosts(data);
+      const result = await fetchPosts();
+      if (result.success) {
+        setPosts(result.data);
+      } else {
+        console.error(result.message);
+      }
     };
-    
+
     getPosts();
   }, []);
 
@@ -30,12 +32,29 @@ const Home = () => {
     setShowPostForm(true);
   };
 
-  const handleDelete = (id) => {
-    setPosts(posts.filter(post => post.id !== id));
+  const handleDelete = async (id) => {
+    const result = await deletePost(id);
+    if (result.success) {
+      setPosts(posts.filter(post => post.id !== id));
+    } else {
+      console.error(result.message);
+    }
   };
 
-  const handleAddPost = (newPost) => {
-    setPosts([...posts, newPost]);
+  const handleAddPost = async (newPost) => {
+    let result;
+    if (selectedPost) {
+      result = await updatePost(selectedPost.id, newPost);
+    } else {
+      result = await createPost(newPost);
+    }
+
+    if (result.success) {
+      setPosts(selectedPost ? posts.map(post => (post.id === selectedPost.id ? result.data : post)) : [...posts, result.data]);
+      closePostForm();
+    } else {
+      console.error(result.message);
+    }
   };
 
   const handleLogout = () => {
