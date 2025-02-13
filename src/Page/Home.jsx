@@ -5,8 +5,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostForm from '../components/PostForm';
 import { fetchPosts, createPost, updatePost, deletePost } from '../api/api';
+import Cookies from 'js-cookie'
 
-// Home Page with Floating Action Button (FAB) and Modal for Add/Edit
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState('John Doe');
@@ -23,7 +23,6 @@ const Home = () => {
         console.error(result.message);
       }
     };
-
     getPosts();
   }, []);
 
@@ -60,6 +59,7 @@ const Home = () => {
   const handleLogout = () => {
     // Handle logout logic (e.g., clear session, redirect to login page)
     alert('Logged out');
+    Cookies.remove('user')
     navigation('/login');
   };
 
