@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Form from '../components/Form';
-
+// const { login } = useAuth();
+import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,11 +10,19 @@ const Login = () => {
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
+  const navigation = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Email:', email);
     console.log('Password:', password);
+    // if (email === 'user@example.com' && password === 'password') {
+    //   login(email); // Log the user in using the context's login function
+    // } else {
+    //   alert('Invalid email or password!');
+    // }
+    // console.log('Logging in...');
+    navigation('/');
   };
 
   return (
