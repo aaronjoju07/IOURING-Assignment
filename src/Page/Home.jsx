@@ -7,9 +7,10 @@ import PostForm from '../components/PostForm';
 import { fetchPosts, createPost, updatePost, deletePost } from '../api/api';
 import Cookies from 'js-cookie'
 
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const [username, setUsername] = useState('John Doe');
+  const user = Cookies.get('user') ? Cookies.get('user').split('@')[0] : 'Guest';
   const [showPostForm, setShowPostForm] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const navigation = useNavigate();
@@ -57,7 +58,6 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic (e.g., clear session, redirect to login page)
     alert('Logged out');
     Cookies.remove('user')
     navigation('/login');
@@ -70,8 +70,8 @@ const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white pt-20">
-      <Header username={username} onLogout={handleLogout} />
-      
+      <Header username={user} onLogout={handleLogout} />
+
       <main className="flex-1 p-6">
         <PostList posts={posts} onEdit={handleEdit} onDelete={handleDelete} />
       </main>

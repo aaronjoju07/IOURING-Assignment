@@ -5,7 +5,7 @@ const PostCard = ({ post, onEdit, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 relative">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 relative">
       <h2 className="text-xl font-semibold text-gray-800 mb-2">{post.title}</h2>
       <p className="text-gray-600 leading-relaxed">{expanded ? post.body : `${post.body.substring(0, 100)}...`}</p>
       <button

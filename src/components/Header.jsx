@@ -1,6 +1,6 @@
 
 const Header = ({ username, onLogout }) => (
-    <header className="flex items-center justify-between bg-gray-100 bg-opacity-80 text-black p-4 fixed top-0 w-full z-10 backdrop-blur-md">
+    <header className="flex items-center justify-between bg-gray-50 bg-opacity-80 text-black p-4 fixed top-0 w-full z-10 backdrop-blur-md border-b border-gray-200">
         <div className="font-semibold text-3xl text-indigo-500">Logo</div>
         <div className="flex items-center gap-4">
             <span>{username}</span>
