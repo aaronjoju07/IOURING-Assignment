@@ -94,12 +94,9 @@ const Home = () => {
       </div>
       {/* Main */}
       <main className="flex-1 p-6">
-
-        <div className="h-full overflow-y-auto">
-          {/* Lazy Loading */}
+        <div className="h-fit overflow-hidden">
           <Suspense fallback={<div className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {Array.from({ length: 16 }).map((_, index) => (
-              // Skeleton Loader
+            {Array.from({ length: 12 }).map((_, index) => (
               <PostCardSkeleton key={index} />
             ))}
           </div>}>
@@ -107,7 +104,7 @@ const Home = () => {
           </Suspense>
         </div>
       </main>
-
+      {/* Add Button */}
       <button
         onClick={() => setShowPostForm(true)}
         className="fixed bottom-8 right-8 bg-indigo-500 text-white rounded-4xl p-3 shadow-lg hover:bg-indigo-600 z-10"

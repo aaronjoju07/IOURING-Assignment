@@ -31,13 +31,65 @@ const PostCard = ({ post, onEdit, onDelete }) => {
   );
 };
 
-// Post List Component
-const PostList = ({ posts, onEdit, onDelete }) => (
-  <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {posts.map(post => (
+// Post List Component with Pagination
+const PostList = ({ posts, onEdit, onDelete }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 9;
+
+  // Calculate the current posts to display
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  return (
+<div className="flex flex-col min-h-screen">
+  <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+    {currentPosts.map(post => (
       <PostCard key={post.id} post={post} onEdit={onEdit} onDelete={onDelete} />
     ))}
   </div>
-);
+  
+  {/* Ensure Pagination is always above the Footer */}
+  <div className="mt-6 mb-12 flex justify-center">
+    <Pagination
+      postsPerPage={postsPerPage}
+      totalPosts={posts.length}
+      paginate={paginate}
+      currentPage={currentPage}
+    />
+  </div>
+</div>
+
+  );
+};
+
+// Pagination Component
+const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav className="mt-4">
+      <ul className="inline-flex -space-x-px">
+        {pageNumbers.map(number => (
+          <li key={number}>
+            <button
+              onClick={() => paginate(number)}
+              className={`px-3 py-2 z-20 leading-tight ${currentPage === number ? 'text-indigo-600' : 'text-gray-500'} bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 export default PostList;
