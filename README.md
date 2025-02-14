@@ -1,7 +1,4 @@
----
-
-```markdown
-# Assignment
+# About Assignment
 
 This is a React-based web application that provides the following features:
 
@@ -103,4 +100,3 @@ To optimize performance when viewing large sets of posts, the app uses lazy load
   index.css              // Global styles
   main.jsx               // Entry point for the application
 ```
----
