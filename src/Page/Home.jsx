@@ -65,7 +65,6 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    alert('Logged out');
     Cookies.remove('user');
     navigation('/login');
   };
