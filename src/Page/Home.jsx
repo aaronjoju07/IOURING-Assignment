@@ -66,8 +66,8 @@ const Home = () => {
 
   const handleLogout = () => {
     Cookies.remove('user');
-    navigation('/login');
-  };
+    navigation('/login', { replace: true });
+  };  
 
   const closePostForm = () => {
     setShowPostForm(false);
